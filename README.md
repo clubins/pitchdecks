@@ -17,6 +17,7 @@ Research-grounded investor pitch-deck variations for **Clubins** — an IoT plat
 | [V7 — Built by the people who run it](decks/v7-built-by-the-people-who-run-it/) | Simon Sinek, Golden Circle | Bauhaus geometric flat, ink + electric violet | 11 | wave two ✅ |
 | [V8 — The owner's second brain](decks/v8-owners-second-brain/) | Jobs-to-be-Done (Christensen et al.) | Warm documentary, honey light, recurring owner character | 12 | wave two ✅ |
 | [V9 — Nightlife is a data category zero](decks/v9-nightlife-is-a-data-category-zero/) | a16z category-and-wedge | Abstract generative, violet-to-magenta gradients | 12 | wave two ✅ |
+| [V10 — The clock is the moat](decks/v10-clock-is-the-moat/) | Tom Tunguz, seven investor questions | Brutalist mono-grid, black/white + warning yellow | 10 | wave two ✅ |
 
 V1 and V4 share Sequoia as their source doctrine — different angles and imagery, same framework. This is deliberate and flagged; see the perspectives doc.
 
@@ -34,6 +35,6 @@ Each deck folder contains the PDF, the PPTX, and `slides/` with all slide PNGs (
 
 Deck packages were verified mechanically (pdfinfo page counts, python-pptx slide read-backs, zip entry counts, palette/luminance signatures, full-res OCR sweeps). OCR cannot fully verify some special glyphs (TA Lärm umlaut, sharp-s in Haußmann); one human visual pass is recommended before external use.
 
-## Wave two (in production)
+## Wave two
 
-Five further versions — V6 DocSend/HBS data-driven order, V7 Sinek Golden Circle, V8 Jobs-to-be-Done, V9 a16z category-and-wedge, V10 Tunguz seven questions — are briefed against the [sourced perspectives doc](research/pitch-deck-perspectives-sourced.md) and land here when verified.
+Wave two is delivered: V6 DocSend/HBS data-driven order, V7 Sinek Golden Circle, V8 Jobs-to-be-Done, V9 a16z category-and-wedge, and V10 Tunguz seven questions — briefed against the [sourced perspectives doc](research/pitch-deck-perspectives-sourced.md) and covered by the wave-two evaluation folio.
