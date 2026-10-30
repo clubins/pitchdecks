@@ -13,6 +13,7 @@ Research-grounded investor pitch-deck variations for **Clubins** — an IoT plat
 | [V3 — Deep-tech moat](decks/v3-deep-tech-moat/) | YC / Kevin Hale, evidence-forward | Blueprint schematic, navy + cyan | 11 | batch one ✅ |
 | [V4 — Venue OS vision](decks/v4-venue-os/) | Sequoia, vision-heavy variant | Warm magazine editorial, cream + burnt orange | 11 | batch one ✅ |
 | [V5 — One Saturday, measured](decks/v5-one-saturday/) | Duarte sparkline storytelling | Cinematic dark-warm, timestamped scenes | 13 | batch one ✅ |
+| [V10 — The clock is the moat](decks/v10-clock-is-the-moat/) | Tom Tunguz, seven investor questions | Brutalist mono-grid, black/white + warning yellow | 10 | wave two ✅ |
 
 V1 and V4 share Sequoia as their source doctrine — different angles and imagery, same framework. This is deliberate and flagged; see the perspectives doc.
 
@@ -30,6 +31,6 @@ Each deck folder contains the PDF, the PPTX, and `slides/` with all slide PNGs (
 
 Deck packages were verified mechanically (pdfinfo page counts, python-pptx slide read-backs, zip entry counts, palette/luminance signatures, full-res OCR sweeps). OCR cannot fully verify some special glyphs (TA Lärm umlaut, sharp-s in Haußmann); one human visual pass is recommended before external use.
 
-## Wave two (in production)
+## Wave two
 
-Five further versions — V6 DocSend/HBS data-driven order, V7 Sinek Golden Circle, V8 Jobs-to-be-Done, V9 a16z category-and-wedge, V10 Tunguz seven questions — are briefed against the [sourced perspectives doc](research/pitch-deck-perspectives-sourced.md) and land here when verified.
+Wave two is delivered: V6 DocSend/HBS data-driven order, V7 Sinek Golden Circle, V8 Jobs-to-be-Done, V9 a16z category-and-wedge, and V10 Tunguz seven questions — briefed against the [sourced perspectives doc](research/pitch-deck-perspectives-sourced.md) and covered by the wave-two evaluation folio.
