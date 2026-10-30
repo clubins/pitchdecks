@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clubins Deck Evaluation — Batch One (V1–V5)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a; --dark: #1a1a1a; --gray-900: #262626; --gray-800: #333333;
+  --gray-700: #4d4d4d; --gray-600: #666666; --gray-500: #808080; --gray-400: #999999;
+  --gray-300: #b3b3b3; --gray-200: #cccccc; --gray-100: #e5e5e5; --gray-50: #f5f5f5;
+  --off-white: #fafafa; --white: #ffffff;
+  --border: #e0e0e0; --border-light: rgba(255,255,255,0.1);
+  --text-primary: var(--black); --text-secondary: var(--gray-600); --text-tertiary: var(--gray-400);
+  --positive: #10b981; --negative: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--off-white); color: var(--text-primary); font-family: 'Source Serif 4', Georgia, serif; line-height: 1.8; }
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+.report-layout { display: grid; grid-template-columns: 1fr 180px; gap: 3rem; max-width: 1120px; margin: 0 auto; padding: 4rem 3rem; }
+.report { max-width: 800px; width: 100%; }
+.report-header h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1rem; }
+.report-subtitle { font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+.report-meta { display: flex; align-items: center; gap: 0.75rem; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--text-tertiary); }
+.report-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+.report-toc { position: sticky; top: 3rem; height: fit-content; font-family: 'Inter', sans-serif; }
+.report-toc .toc-title { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
+.report-toc .toc-link { display: block; font-size: 0.875rem; color: var(--text-secondary); text-decoration: none; padding: 0.35rem 0; border-left: 2px solid transparent; padding-left: 0.75rem; margin-left: -0.875rem; }
+.report-toc .toc-link:hover { color: var(--text-primary); border-left-color: var(--gray-300); }
+.executive-summary { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 2rem; font-size: 1.0625rem; }
+.executive-summary .label { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-tertiary); display: block; margin-bottom: 0.75rem; }
+.metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+.metric-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
+.metric-card .label { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+.metric-card .value { font-family: 'Playfair Display', Georgia, serif; font-size: 1.875rem; font-weight: 400; line-height: 1.2; }
+.metric-card .change { font-family: 'Inter', sans-serif; font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem; }
+.analysis-section { margin: 2.5rem 0 3rem; }
+.analysis-section h3 { font-size: 1.375rem; font-weight: 500; margin-bottom: 1rem; }
+.analysis-section p { font-size: 1rem; margin-bottom: 1rem; color: var(--text-primary); }
+.deck-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 2.5rem 0; }
+.deck-hero img { width: 100%; height: auto; display: block; }
+.deck-hero { border-bottom: 1px solid var(--border); }
+.deck-hero figcaption { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--text-tertiary); padding: 0.75rem 2rem; }
+.deck-body { padding: 1.75rem 2rem 2rem; }
+.deck-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.deck-tags .tag { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-700); background: var(--gray-50); border: 1px solid var(--border); border-radius: 999px; padding: 0.25rem 0.75rem; }
+.deck-card h2 { font-size: 1.625rem; font-weight: 600; margin-bottom: 0.75rem; }
+.deck-body p { font-size: 0.9375rem; margin-bottom: 0.875rem; color: var(--text-primary); }
+.deck-doctrine, .deck-impl, .deck-verify { padding-left: 1rem; border-left: 2px solid var(--gray-100); }
+.deck-verify { color: var(--text-secondary); font-family: 'Inter', sans-serif; font-size: 0.8125rem !important; }
+.deck-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+.file-link { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; background: var(--off-white); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); text-decoration: none; font-family: 'Inter', sans-serif; font-size: 0.8125rem; font-weight: 500; }
+.file-link:hover { background: var(--white); border-color: var(--text-tertiary); }
+.data-table { width: 100%; margin: 2rem 0; border-collapse: collapse; background: var(--white); }
+.data-table th, .data-table td { text-align: left; padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; font-weight: 300; }
+.data-table th { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); }
+.findings { margin: 3rem 0; padding: 2.5rem; background: var(--white); border: 1px solid var(--border); border-radius: 8px; }
+.findings h2 { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1.5rem; }
+.findings-list { list-style: none; counter-reset: finding; }
+.findings-list li { counter-increment: finding; display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+.findings-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.findings-list li::before { content: counter(finding); font-size: 1.5rem; font-weight: 300; color: var(--text-tertiary); min-width: 2rem; line-height: 1.4; }
+.findings-list li strong { display: block; font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
+.findings-list li span { font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary); }
+.report-footer { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.8125rem; color: var(--text-tertiary); padding: 2rem 0 3rem; }
+.report-footer a { color: var(--text-secondary); }
+@media (max-width: 900px) { .report-layout { grid-template-columns: 1fr; padding: 2rem 1.5rem; } .report-toc { display: none; } .metrics-row { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="report-layout">
+  <div class="report">
+    <header class="report-header">
+      <h1>Clubins Deck Evaluation — Batch One</h1>
+      <p class="report-subtitle">Five research-grounded pitch-deck variations, verified mechanically and mapped to their source doctrines. All company metrics are placeholders pending verification.</p>
+      <div class="report-meta">
+        <span class="report-meta-text">October 30, 2026</span>
+        <span>·</span>
+        <span class="report-meta-text"><a href="https://github.com/clubins/pitchdecks">github.com/clubins/pitchdecks</a></span>
+      </div>
+    </header>
+    <hr class="report-divider">
+<!-- SECTION: executive-summary -->
+<div id="executive-summary" class="executive-summary" data-structural-unit-id="blk_exec01">
+  <span class="label">Executive Summary</span>
+  <p>Batch one of the Clubins investor-deck program is delivered and verified: five complete deck variations, each implementing a different documented pitch-deck philosophy (Sequoia, Kawasaki, YC, Duarte), each in three formats (PDF, PPTX, slide-PNG zip). Every package passed mechanical verification — page counts, PPTX read-backs, archive entry counts, palette signatures, and full-resolution OCR sweeps. One reported defect (a title-slide typo in V1) was investigated at pixel level and resolved as an OCR misread of photo texture, not a real error. A human visual pass is still recommended before external use, because OCR cannot verify some special glyphs and compositions.</p>
+</div>
+<!-- SECTION: metrics -->
+<div class="metrics-row" data-structural-unit-id="blk_metr01">
+  <div class="metric-card"><div class="label">Deck versions</div><div class="value">5</div><div class="change">V1–V5, batch one</div></div>
+  <div class="metric-card"><div class="label">Slides total</div><div class="value">57</div><div class="change">12 + 10 + 11 + 11 + 13</div></div>
+  <div class="metric-card"><div class="label">Packages verified</div><div class="value">15</div><div class="change">all counts matched</div></div>
+  <div class="metric-card"><div class="label">Placeholder metrics</div><div class="value">16</div><div class="change">register-tracked</div></div>
+</div>
+<!-- SECTION: analysis-verification -->
+<div class="analysis-section" data-structural-unit-id="blk_anver01">
+  <h3>How these decks were verified</h3>
+  <p>Because automated image viewing returned metadata rather than visible pixels in this environment, verification was mechanical and layered. Format integrity: <code>pdfinfo</code> page counts and <code>python-pptx</code> slide read-backs for every PDF and PPTX, archive entry counts for every zip — all fifteen packages matched their expected slide counts exactly (12, 10, 11, 11, 13). Content: full-resolution OCR sweeps per slide, with crop-and-zoom passes on disputed text. Palette: HSV signatures computed from the actual slide pixels, confirming each deck's visual direction is real and distinct. Numbers: every company-specific figure was cross-checked against the <a href="https://github.com/clubins/pitchdecks/blob/main/registers/placeholder-metrics.csv">placeholder-metrics register</a> (16 entries), and market/regulation claims against the sourced facts document.</p>
+  <p>One flagged defect — V1's title reading "The night runs on datas." in an OCR pass — was investigated at pixel level: glyph-component geometry of the headline band shows the word box is exactly filled by d-a-t-a-period, with no glyph where an "s" would be (~40×50&nbsp;px at this scale). The "s" was photo texture beside the text. The delivered V1 package is correct and unchanged.</p>
+</div>
+<!-- SECTION: deck-v1 -->
+<article id="deck-v1" class="deck-card" data-structural-unit-id="blk_dv1a">
+  <figure class="deck-hero"><img src="https://api.app.obvious.ai/prepare/files/link/fl_fYewEy6l/v1-hero.jpg" alt="Deck V1 title slide — The night runs on data"><figcaption>Deck V1 · title slide · 12 slides</figcaption></figure>
+  <div class="deck-body">
+    <div class="deck-tags"><span class="tag">Sequoia arc</span><span class="tag">Dark editorial · Playfair</span><span class="tag">Amber accent</span></div>
+    <h2>V1 — The night runs on data</h2>
+    <p class="deck-doctrine"><strong>Doctrine:</strong> <a href="https://articles.sequoiacap.com/writing-a-business-plan">Sequoia, "Writing a Business Plan"</a> — a ten-part narrative order (purpose → problem → solution → why now → market → competition → model → team → financials → vision) built on one-sentence claims.</p>
+    <p class="deck-impl"><strong>Implementation:</strong> takeaway-claim titles in the exact Sequoia order, one declarative purpose sentence on slide 2, explicit why-now, vision-weighted close; photoreal night-venue photography with amber sensor-glow overlays.</p>
+    <p class="deck-verify"><strong>Verification:</strong> pdfinfo 12 pages · pptx read-back 12 · zip 12 PNGs · signature: dark (lum 0.13–0.16), amber hues 0–60°.</p>
+    <div class="deck-links"><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v1-brand-true-editorialpdf-G6dWhUAT">PDF</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v1-brand-true-editorialpptx-bJgzwppk">PPTX</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v1-slideszip-odzWZiSZ">PNG zip</a></div>
+  </div>
+</article>
+<!-- SECTION: deck-v2 -->
+<article id="deck-v2" class="deck-card" data-structural-unit-id="blk_dv2a">
+  <figure class="deck-hero"><img src="https://api.app.obvious.ai/prepare/files/link/fl_Q3jn2CZu/v2-hero.jpg" alt="Deck V2 title slide — the 85 dB risk"><figcaption>Deck V2 · title slide · 10 slides</figcaption></figure>
+  <div class="deck-body">
+    <div class="deck-tags"><span class="tag">Kawasaki 10/20/30</span><span class="tag">Swiss typographic</span><span class="tag">Red / black / white</span></div>
+    <h2>V2 — Loud enough to lose</h2>
+    <p class="deck-doctrine"><strong>Doctrine:</strong> <a href="https://guykawasaki.com/the-102030-rule/">Guy Kawasaki, the 10/20/30 rule</a> — exactly 10 slides, 20 minutes, no font under 30 points; compression as discipline.</p>
+    <p class="deck-impl"><strong>Implementation:</strong> exactly 10 slides; oversized numerals as the design system (the 30-point rule at its typographic extreme); every slide readable across a loud room; noise framed as documented displacement risk (TA Lärm caveat on-slide).</p>
+    <p class="deck-verify"><strong>Verification:</strong> pdfinfo 10 pages · pptx read-back 10 · zip 10 PNGs · signature: light (lum 0.75–0.93), red hues 330–360°, low saturation.</p>
+    <div class="deck-links"><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v2-compliance-why-nowpdf-ryVFamod">PDF</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v2-compliance-why-nowpptx-qoErcNE0">PPTX</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v2-slideszip-N0lk0Vjn">PNG zip</a></div>
+  </div>
+</article>
+<!-- SECTION: deck-v3 -->
+<article id="deck-v3" class="deck-card" data-structural-unit-id="blk_dv3a">
+  <figure class="deck-hero"><img src="https://api.app.obvious.ai/prepare/files/link/fl_TRwFUQfb/v3-hero.jpg" alt="Deck V3 cover — chip to chart, all ours"><figcaption>Deck V3 · cover slide · 11 slides</figcaption></figure>
+  <div class="deck-body">
+    <div class="deck-tags"><span class="tag">YC / Kevin Hale</span><span class="tag">Evidence-forward</span><span class="tag">Blueprint schematic</span></div>
+    <h2>V3 — Full-stack from chip to chart</h2>
+    <p class="deck-doctrine"><strong>Doctrine:</strong> <a href="https://www.ycombinator.com/blog/how-to-design-a-better-pitch-deck/">YC / Kevin Hale, "How to Design a Better Pitch Deck"</a> — legible, simple, obvious; every slide carries exactly one of the 5–7 ideas investors must remember.</p>
+    <p class="deck-impl"><strong>Implementation:</strong> traction on slide 3 (evidence-forward), one claim per slide, monospace annotations with schematic navy/cyan linework; team slide cites the verified 137-commit full-stack record (92 Haußmann + 45 Swiftb0y, from the git history).</p>
+    <p class="deck-verify"><strong>Verification:</strong> pdfinfo 11 pages · pptx read-back 11 · zip 11 PNGs · signature: navy canvas with high-chroma cyan linework (sat 0.86–0.91, hues 180–270°).</p>
+    <div class="deck-links"><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v3-deep-tech-moatpdf-bZsGTjBy">PDF</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v3-deep-tech-moatpptx-rfPLoO4F">PPTX</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v3-deep-tech-moat-slideszip-dKn2TZuE">PNG zip</a></div>
+  </div>
+</article>
+<!-- SECTION: deck-v4 -->
+<article id="deck-v4" class="deck-card" data-structural-unit-id="blk_dv4a">
+  <figure class="deck-hero"><img src="https://api.app.obvious.ai/prepare/files/link/fl_0IJj3Oin/v4-hero.jpg" alt="Deck V4 cover — the venue operating system"><figcaption>Deck V4 · cover slide · 11 slides</figcaption></figure>
+  <div class="deck-body">
+    <div class="deck-tags"><span class="tag">Sequoia arc · vision-heavy</span><span class="tag">Warm magazine editorial</span><span class="tag">Illustrated</span></div>
+    <h2>V4 — The venue operating system</h2>
+    <p class="deck-doctrine"><strong>Doctrine:</strong> <a href="https://articles.sequoiacap.com/writing-a-business-plan">Sequoia, "Writing a Business Plan"</a> — the vision-heavy reading of the same arc. <em>Honest overlap:</em> V1 and V4 share a source family by design; their distinctness is angle and imagery, not framework.</p>
+    <p class="deck-impl"><strong>Implementation:</strong> platform-category vision first ("the venue operating system starts with sound"), wedge expansion from noise to full operations, illustrated warm cream/burnt-orange magazine spreads instead of photography.</p>
+    <p class="deck-verify"><strong>Verification:</strong> pdfinfo 11 pages · pptx read-back 11 · zip 11 PNGs · signature: light warm (lum 0.75–0.84), amber hues 0–60°, moderate saturation — cleanly separated from V1's near-black.</p>
+    <div class="deck-links"><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v4-venue-ospdf-fmU4L1pP">PDF</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v4-venue-ospptx-kDLhdCer">PPTX</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v4-slideszip-svDzU62R">PNG zip</a></div>
+  </div>
+</article>
+<!-- SECTION: deck-v5 -->
+<article id="deck-v5" class="deck-card" data-structural-unit-id="blk_dv5a">
+  <figure class="deck-hero"><img src="https://api.app.obvious.ai/prepare/files/link/fl_nec4A9Fg/v5-hero.jpg" alt="Deck V5 opening scene — doors open"><figcaption>Deck V5 · opening scene · 13 slides</figcaption></figure>
+  <div class="deck-body">
+    <div class="deck-tags"><span class="tag">Duarte sparkline</span><span class="tag">Cinematic dark-warm</span><span class="tag">Timestamped scenes</span></div>
+    <h2>V5 — One Saturday, measured</h2>
+    <p class="deck-doctrine"><strong>Doctrine:</strong> <a href="https://www.duarte.com/resources/books/resonate/">Nancy Duarte, <em>Resonate</em></a> — alternate between "what is" (the owner's reality) and "what could be" (the measured night) until the tension resolves in the ask.</p>
+    <p class="deck-impl"><strong>Implementation:</strong> one Saturday as a timestamped scene timeline (doors open → bar behind → neighbor's wall → complaint log → staff move), each scene pairing reality with the measured "could be"; team slide added before the ask per the shared guide.</p>
+    <p class="deck-verify"><strong>Verification:</strong> pdfinfo 13 pages · pptx read-back 13 · zip 13 PNGs · signature: dark sodium (lum 0.22, sat 0.49–0.56) with scene continuity via chained image edits.</p>
+    <div class="deck-links"><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v5-one-saturday-measuredpdf-nUAdlMPy">PDF</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v5-one-saturday-measuredpptx-wHaXbGAR">PPTX</a><a class="file-link" href="https://app.obvious.ai/p/investor-pitch-deck-variations-Osrd0HAa/f/clubins-v5-slideszip-2Jd9Fj3P">PNG zip</a></div>
+  </div>
+</article>
+<!-- SECTION: analysis-distinctness -->
+<div id="distinctness" class="analysis-section" data-structural-unit-id="blk_andis01">
+  <h3>Are the five actually different?</h3>
+  <p>Distinctness was checked with the same lens for every deck: framework, visual direction, and imagery style. Palette signatures were computed from the actual hero and mid-deck pixels (HSV luminance, saturation, and dominant hue bands at 200×112 downsample), and OCR title reads confirmed the headline voices differ. Every pair differs on at least two of the three axes; the one shared framework (V1/V4, both Sequoia) is compensated by fully opposed visual directions and is flagged wherever the decks are indexed.</p>
+</div>
+<!-- SECTION: data-table -->
+<table class="data-table" data-structural-unit-id="blk_tbl01">
+  <thead><tr><th>Deck</th><th>Framework</th><th>Luminance</th><th>Dominant hues</th><th>Imagery</th></tr></thead>
+  <tbody>
+    <tr><td>V1</td><td>Sequoia arc</td><td>dark (0.13–0.16)</td><td>amber 0–60°</td><td>photoreal night venues</td></tr>
+    <tr><td>V2</td><td>Kawasaki 10/20/30</td><td>light (0.75–0.93)</td><td>red 330–360°</td><td>oversized numerals, flat</td></tr>
+    <tr><td>V3</td><td>YC evidence-forward</td><td>dark-navy (0.28)</td><td>cyan 180–270°</td><td>schematic linework</td></tr>
+    <tr><td>V4</td><td>Sequoia vision-heavy</td><td>light (0.75–0.84)</td><td>warm amber 0–60°</td><td>illustrated magazine</td></tr>
+    <tr><td>V5</td><td>Duarte sparkline</td><td>dark (0.22)</td><td>sodium 0–60°</td><td>cinematic timestamped scenes</td></tr>
+  </tbody>
+</table>
+<!-- SECTION: analysis-overlap -->
+<div class="analysis-section" data-structural-unit-id="blk_anovl01">
+  <h3>The V1 / V4 overlap, stated plainly</h3>
+  <p>V1 and V4 both implement Sequoia's business-plan arc — one in its classic investor-meeting reading (brand-true editorial, dark photography), one in its vision-heavy reading (platform category first, illustrated warmth). The spec was written and approved with five visual angles; the doctrine research that followed made the shared source explicit. If a future wave replaces any deck, V4 is the natural candidate: the wave-two lineup (DocSend/HBS, Sinek, Jobs-to-be-Done, a16z, Tunguz) supplies five more distinct frameworks from which a replacement can be drawn.</p>
+</div>
+<!-- SECTION: findings -->
+<div id="findings" class="findings" data-structural-unit-id="blk_find01">
+  <h2>Key Findings</h2>
+  <ol class="findings-list">
+    <li><strong>All fifteen packages verified.</strong><span>PDF page counts, PPTX slide read-backs, and zip entry counts matched expected values for every deck (V1 12, V2 10, V3 11, V4 11, V5 13).</span></li>
+    <li><strong>Distinctness is real, not claimed.</strong><span>Computed palette signatures separate all five decks; each pair differs on framework, visual direction, or imagery — except V1/V4, which share Sequoia by design and are flagged.</span></li>
+    <li><strong>The one flagged defect was an OCR artifact.</strong><span>V1's title slide reads "The night runs on data." — pixel geometry shows no trailing "s"; the deliverables stand unchanged.</span></li>
+    <li><strong>One human visual pass is still recommended.</strong><span>OCR cannot fully verify special glyphs (TA Lärm umlaut, sharp-s in Haußmann) or composition quality; everything else was checked mechanically.</span></li>
+    <li><strong>Do not pitch with these numbers yet.</strong><span>All 16 company metrics are register-tracked placeholders; market and regulation figures are sourced (Eurostat 2024, Initiative Musik 2019, Clubcommission Berlin 2023, TA Lärm with caveat). Replace placeholders before any investor contact.</span></li>
+  </ol>
+</div>
+    <footer class="report-footer">Generated by Obvious · October 2026 · Deck materials: <a href="https://github.com/clubins/pitchdecks">github.com/clubins/pitchdecks</a> · Doctrine map: <a href="https://github.com/clubins/pitchdecks/blob/main/research/pitch-deck-perspectives-sourced.md">sourced perspectives</a></footer>
+  </div>
+  <nav class="report-toc">
+    <div class="toc-title">Contents</div>
+    <a href="#executive-summary" class="toc-link">Executive summary</a>
+    <a href="#deck-v1" class="toc-link">The five decks</a>
+    <a href="#distinctness" class="toc-link">Distinctness</a>
+    <a href="#findings" class="toc-link">Findings</a>
+  </nav>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      if (targetId === '' || targetId === '#') {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      } else {
+        const el = document.getElementById(targetId);
+        if (el) { el.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
