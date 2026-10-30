@@ -24,7 +24,7 @@ Each deck folder contains the PDF, the PPTX, and `slides/` with all slide PNGs (
 - `research/` — sourced market facts, the pitch-deck perspectives doctrine map (with source URLs), and the batch-one production guide
 - `spec/` — link to the approved spec (authored as an Obvious Blueprint: `art_dEznXido`)
 - `registers/` — placeholder-metrics register (every invented figure, its status, and where it is used)
-- `evaluation/` — comparative folio of all versions (published from the Obvious workspace; added after review)
+- `evaluation/` — comparative folio of batch one: [`batch-one-evaluation.html`](evaluation/batch-one-evaluation.html) (live version in the Obvious workspace, artifact `art_pfpnoU5W`)
 
 ## Verification notes
 
