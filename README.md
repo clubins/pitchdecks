@@ -23,6 +23,7 @@ Research-grounded investor pitch-deck variations for **Clubins** — an IoT plat
 | [V13 — The trailer, not the movie](decks/v13-the-trailer-not-the-movie/) | David S. Rose, pitching a VC — people first | Theatre playbill, aged cream + crimson, ACT I/II/III | 12 | wave three ✅ |
 | [V14 — Cloud physics for the physical night](decks/v14-cloud-physics-for-the-physical-night/) | Bessemer Atlas discipline, metric-per-claim | Phosphor terminal, black + phosphor green | 11 | wave three ✅ |
 | [V15 — The story you can retell](decks/v15-the-story-you-can-retell/) | First Round Review, story-first | Photocopy zine, newsprint grey + halftone collage | 11 | wave three ✅ |
+| [V20 — You are the hero](decks/v20-you-are-the-hero/) | StoryBrand SB7, customer as hero | Mid-century poster, teal + amber, stylized illustration | 13 | wave four ✅ |
 
 V1 and V4 share Sequoia as their source doctrine — different angles and imagery, same framework. This is deliberate and flagged; see the perspectives doc.
 
