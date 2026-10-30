@@ -13,6 +13,7 @@ Research-grounded investor pitch-deck variations for **Clubins** — an IoT plat
 | [V3 — Deep-tech moat](decks/v3-deep-tech-moat/) | YC / Kevin Hale, evidence-forward | Blueprint schematic, navy + cyan | 11 | batch one ✅ |
 | [V4 — Venue OS vision](decks/v4-venue-os/) | Sequoia, vision-heavy variant | Warm magazine editorial, cream + burnt orange | 11 | batch one ✅ |
 | [V5 — One Saturday, measured](decks/v5-one-saturday/) | Duarte sparkline storytelling | Cinematic dark-warm, timestamped scenes | 13 | batch one ✅ |
+| [V13 — The trailer, not the movie](decks/v13-the-trailer-not-the-movie/) | David S. Rose, pitching a VC — people first | Theatre playbill, aged cream + crimson, ACT I/II/III | 12 | wave three ✅ |
 
 V1 and V4 share Sequoia as their source doctrine — different angles and imagery, same framework. This is deliberate and flagged; see the perspectives doc.
 
