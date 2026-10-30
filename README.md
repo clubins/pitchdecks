@@ -19,6 +19,7 @@ Research-grounded investor pitch-deck variations for **Clubins** — an IoT plat
 | [V9 — Nightlife is a data category zero](decks/v9-nightlife-is-a-data-category-zero/) | a16z category-and-wedge | Abstract generative, violet-to-magenta gradients | 12 | wave two ✅ |
 | [V10 — The clock is the moat](decks/v10-clock-is-the-moat/) | Tom Tunguz, seven investor questions | Brutalist mono-grid, black/white + warning yellow | 10 | wave two ✅ |
 | [V11 — The answer first](decks/v11-the-answer-first/) | Minto Pyramid Principle, answer-first | FT-broadsheet analytics, salmon paper + navy ink | 11 | wave three ✅ |
+| [V12 — Frame control](decks/v12-frame-control/) | Oren Klaff, Pitch Anything — frames before facts | Risograph poster, white + fluorescent pink/blue duotone | 10 | wave three ✅ |
 
 V1 and V4 share Sequoia as their source doctrine — different angles and imagery, same framework. This is deliberate and flagged; see the perspectives doc.
 
